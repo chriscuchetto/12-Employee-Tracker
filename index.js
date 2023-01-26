@@ -22,7 +22,7 @@ function viewDepartments() {
 }
 
 function viewRoles() {
-    db.query("SELECT * FROM role", function (err, results) {
+    db.query("SELECT role.id, role.title, role.salary, department.name FROM role JOIN department ON role.department_id = department.id", function (err, results) {
     console.table(results);
   });
 }
@@ -118,9 +118,34 @@ function viewEmployees() {
   }
   function updateEmployee() {
     db.query("SELECT * FROM employee", function (err, results) {
-        const employees = results.map((employee) => ({ name: employee.first_name + " " + employee.last_name}));
-    })
-  }
+        const employees = results.map((employee) => ({ name: employee.first_name + " " + employee.last_name, value: employee.id}));
+        
+
+    db.query("SELECT * FROM role", function (err, results) {
+        const roles = results.map((role) => ({name: role.title, value: role.id }));
+        inquirer.prompt([
+          {
+            type: "list",
+            message: "Which employee's role do you want to update?",
+            name: "id",
+            choices: employees,
+          },
+          {
+            type: "list",
+            message: "Which role will selected employee be assigned?",
+            name: "role_id",
+            choices: roles,
+          },
+        ])
+        .then((answer) => {
+            db.query("UPDATE employee SET role_id = ? WHERE id = ?", [answer.role_id, answer.id], function (err, results) {
+              console.table(results);
+              console.log("Updated employee's info successfully");
+            });
+        });
+    });
+});
+}
 
   function makeAnother() {
 inquirer.prompt([
@@ -135,6 +160,8 @@ inquirer.prompt([
         { name: "Add a department", value: "ADD DEPARTMENT" },
         { name: "Add a role", value: "ADD ROLE" },
         { name: "Add a employee", value: "ADD EMPLOYEE" },
+        { name: "Update a Employee", value: "UPDATE EMPLOYEE" },
+
         { name: "EXIT?", value: "EXIT" },
 
       ],
@@ -158,6 +185,9 @@ inquirer.prompt([
       }
     if (response.choice === "ADD EMPLOYEE") {
         addEmployee();
+      }
+      if (response.choice === "UPDATE EMPLOYEE") {
+        updateEmployee();
       }
     if (response.choice === "EXIT") {
         process.exit();
