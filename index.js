@@ -8,10 +8,10 @@ const db = mysql.createConnection(
     // MySQL username,
     user: "root",
     // MySQL password
-    password: process.env.PW,
+    password:"PutYourPasswordHere",
     database: "employee_db",
   },
-  console.log(`Connected to the tracker database.`)
+  console.log(`Connected to the employee_db database.`)
 );
 
 function viewDepartments() {
