@@ -15,7 +15,6 @@ const db = mysql.createConnection(
   console.log(`Connected to the employee_db database.`)
 );
 
-
 function viewDepartments() {
     db.query("SELECT * FROM department", function (err, results) {
         console.table(results);
@@ -37,7 +36,6 @@ function viewEmployees() {
   function addDepartment() {
     inquirer.prompt([
         {
-            type: "input",
             message: "What is the name of department?",
             name: "name",
         },
@@ -50,21 +48,35 @@ function viewEmployees() {
         });
     });
   }
-  function addDepartment() {
+  function addRole() {
+    
+    db.query("SELECT * FROM department", function (err, results) 
+    { const departments = results.map(department => ({name: department.name, value: department.id}));
+    
     inquirer.prompt([
         {
-            type: "input",
-            message: "What is the name of department?",
-            name: "name",
+            message: "What is the name?",
+            name: "title",
+        },
+        {
+            message: "What is the salary?",
+            name: "salary",
+        },
+        {
+            type: "list",
+            message: "What department does the role belong to?",
+            name: "department_id",
+            choices: departments,
         },
     ])
     .then((answer) => {
 
-        db.query("INSERT INTO department SET ?", answer, function (err, results) {
+        db.query("INSERT INTO role SET ?", answer, function (err, results) {
             console.table(results);
-            console.log("New Department has been added!");
+            console.log("New Role has been added!");
         });
     });
+});
   }
 
   function makeAnother() {
@@ -78,6 +90,7 @@ inquirer.prompt([
         { name: "View all roles", value: "VIEW ROLES" },
         { name: "View all employees", value: "VIEW EMPLOYEES" },
         { name: "Add a department", value: "ADD DEPARTMENT" },
+        { name: "Add a role", value: "ADD ROLE" },
         { name: "EXIT?", value: "EXIT" },
 
       ],
