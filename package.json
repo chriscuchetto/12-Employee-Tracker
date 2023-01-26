@@ -1,0 +1,25 @@
+{
+  "name": "12-employee-tracker",
+  "version": "1.0.0",
+  "description": "Employee Tracker is an application that helps keep track of the number of employees, their role, and their department. With this applicstion, employee information can be added, as well as updated by a manager or someone higher up in the company. This application uses MySQL, Inquirier,",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/chriscuchetto/12-Employee-Tracker.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/chriscuchetto/12-Employee-Tracker/issues"
+  },
+  "homepage": "https://github.com/chriscuchetto/12-Employee-Tracker#readme",
+  "dependencies": {
+    "dotenv": "^16.0.3",
+    "inquirer": "^8.2.4",
+    "mysql2": "^2.1.0"
+  }
+}
